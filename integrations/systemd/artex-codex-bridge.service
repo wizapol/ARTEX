@@ -1,0 +1,20 @@
+[Unit]
+Description=ARTEX local adapter for signed-in Codex CLI
+After=default.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/srv/naztlan-apps/artex-runtime/codex-bridge
+ExecStart=/srv/naztlan-apps/artex-runtime/codex-bridge/venv/bin/python /srv/naztlan-apps/artex-runtime/codex-bridge/bridge.py
+Environment=CODEX_HOME=/home/wizapol/.codex
+Restart=on-failure
+RestartSec=10
+UMask=0077
+MemoryMax=1536M
+CPUQuota=100%
+KillMode=control-group
+TimeoutStopSec=10
+
+[Install]
+WantedBy=default.target

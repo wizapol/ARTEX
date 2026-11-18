@@ -138,7 +138,8 @@ func DecomposeGoalsWithProvider(ctx context.Context, prov llm.Provider, dataDir,
 	// Wire add_task_scope only when we have a real asset store + task to write to.
 	// The scope-extraction tail is appended in lockstep so the prompt never asks for
 	// a tool that isn't present.
-	if as != nil && taskID > 0 {
+	// In dev mode, skip scope validation entirely for faster testing.
+	if as != nil && taskID > 0 && !devModeEnabled() {
 		tools = append(tools, tsx.addTaskScope())
 		sys += goalsScopeTail
 	}

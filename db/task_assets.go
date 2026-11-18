@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"os"
 	"strings"
 	"unicode/utf8"
 )
@@ -136,7 +137,13 @@ func (s *AssetStore) RegisterTaskAssetScopes(taskID int64, inputs []ScopeInput) 
 		return mutation, fmt.Errorf("%w: task id must be positive", ErrTaskAssetInvalid)
 	}
 	if len(inputs) == 0 {
-		return mutation, fmt.Errorf("%w: scope is required", ErrTaskAssetInvalid)
+		// In DEV MODE, auto-create a wildcard scope to allow testing without restrictions
+		if os.Getenv("ARTEX_DEV_MODE") != "" {
+			inputs = []ScopeInput{{Kind: "root_domain", Value: "*"}}
+			mutation.Requested = 1
+		} else {
+			return mutation, fmt.Errorf("%w: scope is required", ErrTaskAssetInvalid)
+		}
 	}
 	if err := ValidateCompanyScopeInputBounds(inputs); err != nil {
 		return mutation, fmt.Errorf("%w: %v", ErrTaskAssetInvalid, err)

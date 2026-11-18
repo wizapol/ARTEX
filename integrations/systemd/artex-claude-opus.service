@@ -1,0 +1,15 @@
+[Unit]
+Description=ARTEX Claude Code opus adapter
+StartLimitIntervalSec=0
+[Service]
+Environment=ARTEX_BRIDGE_RUNTIME=/srv/naztlan-apps/artex-runtime/claude-bridge
+ExecStart=/srv/naztlan-apps/artex-runtime/codex-bridge/venv/bin/python /srv/naztlan-apps/artex-runtime/claude-bridge/bridge.py
+Environment=ARTEX_CLAUDE_MODEL=claude-opus-4-6
+Environment=ARTEX_CLAUDE_PORT=8791
+Restart=on-failure
+RestartSec=10
+UMask=0077
+MemoryMax=1536M
+KillMode=control-group
+[Install]
+WantedBy=default.target

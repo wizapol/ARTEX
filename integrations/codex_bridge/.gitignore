@@ -1,0 +1,7 @@
+__pycache__/
+bridge-key
+empty/
+relay-*/
+completion-*/
+*.log
+.env

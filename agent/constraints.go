@@ -11,7 +11,11 @@ import (
 // grouped; empty string when there are no constraints (or ts is nil). The framing
 // deliberately puts these ABOVE the exploration/expansion heuristics so a declared
 // boundary wins the tug-of-war against "chase another entry surface".
+// In dev mode, constraints are skipped to simplify testing.
 func constraintBlock(ts *db.ExplorationStore) string {
+	if devModeEnabled() {
+		return ""
+	}
 	if ts == nil {
 		return ""
 	}

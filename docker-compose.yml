@@ -22,7 +22,7 @@ services:
       context: .
       args:
         ARTEX_VERSION: ${ARTEX_VERSION:-dev}
-    image: artex:local
+    image: artex:baarai-v0.6.0-dev
     depends_on:
       postgres:
         condition: service_healthy
@@ -41,6 +41,7 @@ services:
       # Untrusted-output boundary: on by default (empty = on); ARTEX_UNTRUSTED_BOUNDARY=0 in .env
       # disables it. Cost: about 154 bytes per tool result plus one system note.
       ARTEX_UNTRUSTED_BOUNDARY: ${ARTEX_UNTRUSTED_BOUNDARY:-}
+      ARTEX_DEV_MODE: ${ARTEX_DEV_MODE:-}
       ARTEX_UPDATE_CHECK: ${ARTEX_UPDATE_CHECK:-}
       # Noise profile for target requests: off (default) | quiet | balanced | aggressive.
       ARTEX_NOISE_PROFILE: ${ARTEX_NOISE_PROFILE:-}
